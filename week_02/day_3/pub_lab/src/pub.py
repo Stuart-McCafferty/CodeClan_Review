@@ -8,9 +8,11 @@ class Pub:
         self.till += amount
     
     def serve(self, drink, customer):
-        if self.drinks.count(drink) == 0:
+        if self.drinks.count(drink) == 0 or customer.age < 18 or customer.drunkness > 10:
             return
-        self.drinks.remove(drink)
-        customer.buy_drink(drink)
-        self.till += drink.price    
+        if customer.wallet >= drink.price:
+            self.drinks.remove(drink)
+            customer.buy_drink(drink)
+            self.increase_till(drink.price)
+            customer.decrease_wallet(drink.price)   
         
